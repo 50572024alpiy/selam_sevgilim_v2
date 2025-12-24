@@ -493,3 +493,71 @@ footer p {
     radial-gradient(520px 260px at 10% 0%, rgba(168, 85, 247, .34), transparent 45%),
     radial-gradient(520px 260px at 90% 120%, rgba(236, 72, 153, .30), transparent 55%);
 }
+/* === Photobooth time-gate (27 Dec 2025 10:00 TR) === */
+.tool-card .tool-label{
+  display: inline-block;
+}
+
+.tool-card .gate-badge,
+.tool-card .gate-countdown{
+  position: absolute;
+  display: none;
+  pointer-events: none;
+}
+
+.tool-card .gate-badge{
+  top: 14px;
+  right: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(15,23,42,.86);
+  border: 1px solid rgba(148,163,184,.35);
+  color: rgb(226,232,240);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.tool-card .gate-countdown{
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: .01em;
+  color: rgb(226,232,240);
+  background: rgba(0,0,0,.28);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 10px 22px rgba(0,0,0,.25);
+  white-space: nowrap;
+}
+
+.tool-card.is-locked{
+  opacity: .55;
+  filter: grayscale(.75);
+  cursor: not-allowed;
+}
+
+.tool-card.is-locked .gate-badge,
+.tool-card.is-locked .gate-countdown{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-card.is-locked:hover{
+  transform: none;
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255,255,255,.08);
+  color: rgb(var(--primary-2));
+}
+
+@media (max-width: 640px){
+  .tool-card .gate-countdown{
+    font-size: 11px;
+    padding: 8px 10px;
+  }
+}

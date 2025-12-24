@@ -31,12 +31,75 @@
     <a href="f1.html" class="tool-card">F1 Quiz</a>
     <a href="yazılar.html" class="tool-card">📜</a> 
     <a href="map.html" class="tool-card">🗺️</a>
+
+    <a href="#" class="tool-card" id="photoboothCard" data-href="photobooth.html" aria-disabled="true">
+      <span class="tool-label">🎞</span>
+      <span class="gate-badge" aria-hidden="true">Kilitli</span>
+      <span class="gate-countdown" id="photoboothCountdown" aria-live="polite"></span>
+    </a>
   </main>
 
   <footer>
     <p>Made with ❤️ for u · Last updated: Dec 2025</p>
     <p>Seni Seviyorum</p>
   </footer>
+
   <script src="auth-gate.js" defer></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const card = document.getElementById("photoboothCard");
+      const countdownEl = document.getElementById("photoboothCountdown");
+      if (!card || !countdownEl) return;
+
+      const unlockAtUTC = Date.UTC(2025, 11, 27, 7, 0, 0);
+      const realHref = card.getAttribute("data-href") || "photobooth.html";
+
+      const pad2 = (n) => String(n).padStart(2, "0");
+
+      function formatRemaining(ms) {
+        if (ms < 0) ms = 0;
+        const totalSec = Math.floor(ms / 1000);
+        const days = Math.floor(totalSec / 86400);
+        const hours = Math.floor((totalSec % 86400) / 3600);
+        const minutes = Math.floor((totalSec % 3600) / 60);
+        const seconds = totalSec % 60;
+
+        if (days > 0) {
+          return `${days} gün ${pad2(hours)} saat ${pad2(minutes)} dk ${pad2(seconds)} sn`;
+        }
+        return `${pad2(hours)} saat ${pad2(minutes)} dk ${pad2(seconds)} sn`;
+      }
+
+      function applyState() {
+        const now = Date.now();
+        const locked = now < unlockAtUTC;
+
+        card.classList.toggle("is-locked", locked);
+
+        if (locked) {
+          card.setAttribute("href", "#");
+          card.setAttribute("aria-disabled", "true");
+          card.setAttribute("tabindex", "-1");
+          card.setAttribute("title", "27 Aralık 2025 · 10:00'da açılacak");
+          countdownEl.textContent = "Açılmasına: " + formatRemaining(unlockAtUTC - now);
+        } else {
+          card.setAttribute("href", realHref);
+          card.removeAttribute("aria-disabled");
+          card.removeAttribute("tabindex");
+          card.removeAttribute("title");
+          countdownEl.textContent = "";
+        }
+      }
+
+      card.addEventListener("click", (e) => {
+        if (card.classList.contains("is-locked")) e.preventDefault();
+      });
+
+      applyState();
+      setInterval(applyState, 1000); 
+    });
+  </script>
+
 </body>
 </html>
